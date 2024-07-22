@@ -9,7 +9,7 @@ add_executable(WordFrequency main.cpp
 
 
 
-    FileIO/FileIO.h fileIO/FileIO.cpp
+    FileIO/FileIO.h FileIO/FileIO.cpp
     WordFrequency/CountingWordFrequency.h WordFrequency/CountingWordFrequency.cpp
     FileIO/FileIOError.h)
 
