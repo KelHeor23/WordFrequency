@@ -13,6 +13,8 @@ add_executable(WordFrequency main.cpp
     WordFrequency/CountingWordFrequency.h WordFrequency/CountingWordFrequency.cpp
     FileIO/FileIOError.h)
 
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "freq")
+
 include(GNUInstallDirs)
 install(TARGETS WordFrequency
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
