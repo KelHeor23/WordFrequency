@@ -9,6 +9,7 @@ std::queue<std::string> queueData;
 std::mutex mutexQueue;
 std::condition_variable cvData;
 std::atomic<bool> isFullFile = false;
+std::atomic<bool> dataReady = false;   // Флаг для защиты от spurious wakeup
 
 bool readFile(const std::string &filename)
 {
@@ -22,10 +23,12 @@ bool readFile(const std::string &filename)
             std::unique_lock<std::mutex> lock(mutexQueue);
             queueData.push(line);
             lock.unlock();
+            dataReady= true;
             cvData.notify_one();
         }
         file.close();
         isFullFile = true;  // Отмечаю, что файл полностью прочитан
+        dataReady= true;
         cvData.notify_one();
     } else {
         throw FileIOError("Unable to open file: " + filename + "\n");

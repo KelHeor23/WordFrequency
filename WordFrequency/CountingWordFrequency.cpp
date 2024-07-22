@@ -81,7 +81,9 @@ void CountingWordFrequency::readLines()
 {
     while (true) {
         std::unique_lock<std::mutex> lock(FileIO::mutexQueue);
-        FileIO::cvData.wait(lock, [this]{ return !FileIO::queueData.empty() || FileIO::isFullFile; });
+        FileIO::cvData.wait(lock, [this]{
+            return (!FileIO::queueData.empty() || FileIO::isFullFile) && FileIO::dataReady;
+        });
 
         if (!FileIO::queueData.empty()) {
             std::string line = FileIO::queueData.front();
